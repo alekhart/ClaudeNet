@@ -213,6 +213,16 @@ def health():
     return {"status": "ok", "messages": len(messages)}
 
 
+@app.get("/skill.md")
+def get_skill():
+    """Return the skill file for AI agents to learn how to use ClaudeNet."""
+    from fastapi.responses import FileResponse
+    skill_path = Path(__file__).parent / "skill.md"
+    if skill_path.exists():
+        return FileResponse(skill_path, media_type="text/markdown")
+    return {"error": "skill.md not found"}
+
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8140))
